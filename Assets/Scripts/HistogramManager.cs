@@ -9,64 +9,55 @@ public class HistogramManager : MonoBehaviour
     // Num Value
 
     [SerializeField] int[] numValue = new int[] {};
+    [SerializeField] string[] suitValue = new string[] {};
+    [SerializeField] string[] cardCombo = new string[] {};
 
-    SortedDictionary<int, int> valueHistogram = new SortedDictionary<int, int>();
+    private HandManager handManager;
+
+    private void Awake() {
+        handManager = FindObjectOfType<HandManager>();
+    }
 
     public void UpdateValueHistogram(int fishIntValue)
     {
         numValue = numValue.Concat(new int[] { fishIntValue }).ToArray();
-
-        valueHistogram = new SortedDictionary<int, int>();
-
-        foreach (int item in numValue) {
-            if (valueHistogram.ContainsKey(item)) {
-                valueHistogram[item]++;
-            } else {
-                valueHistogram[item] = 1;
-            }
-        }
-        
-        // foreach (KeyValuePair<int, int> pair in valueHistogram) {
-        //     string testString = "There are " + pair.Value + " " + pair.Key + "'s";
-        //     print(testString);
-        // }
-    }
-
-    private void CheckIfRepeat() {
-        
-    }
-
-    public void ClearValueHistogram() {
-        numValue = new int[] {};
     }
 
     // Suits 
 
-    [SerializeField] string[] suitValue = new string[] {};
-
-    SortedDictionary<string, int> suitHistogram = new SortedDictionary<string, int>();
-
     public void UpdateSuitHistogram(string fishSuitValue)
     {
         suitValue = suitValue.Concat(new string[] { fishSuitValue }).ToArray();
-
-        suitHistogram = new SortedDictionary<string, int>();
-
-        foreach (string item in suitValue) {
-            if (suitHistogram.ContainsKey(item)) {
-                suitHistogram[item]++;
-            } else {
-                suitHistogram[item] = 1;
-            }
-        }
-        
-        // foreach (KeyValuePair<string, int> pair in suitHistogram) {
-        //     string testString = "There are " + pair.Value + " " + pair.Key;
-        //     print(testString);
-        // }
     }
 
-    public void ClearSuitHistogram() {
+    // Combo
+
+    public void UpdateComboHistogram(int fishIntValue, string fishSuitValue)
+    {
+        string fishIntStr = fishIntValue.ToString();
+        string comboStr = fishIntStr + fishSuitValue;
+
+        cardCombo = cardCombo.Concat(new string[] { comboStr }).ToArray();
+
+        CheckIfRepeat();
+    }
+
+
+    private void CheckIfRepeat() {
+        var counts = cardCombo.GroupBy(i => i);
+
+            foreach (var group in counts)
+            {
+                if (group.Count() > 1) {
+                    print("repeat card");
+                    handManager.ResetHand();
+                } 
+            }
+    }
+
+    public void ClearHistograms() {
+        cardCombo = new string[] {};
+        numValue = new int[] {};
         suitValue = new string[] {};
     }
 
@@ -198,9 +189,6 @@ public class HistogramManager : MonoBehaviour
         if ((numValue[0] == 1 && numValue[4] == 13) || (numValue[4] - numValue[0] == 4)) {
             isStraight = true;
         }
-
-        print(isFlush);
-        print(isStraight);
 
         if (isStraight && isFlush) {
             return true;

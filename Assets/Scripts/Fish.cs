@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour
 {
+
+    private HandManager handManager;
+    private AudioManager audioManager;
+
+    private void Awake() {
+        handManager = FindObjectOfType<HandManager>();
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
     public enum SuitValue 
     {
         c, 
@@ -33,16 +42,13 @@ public class Fish : MonoBehaviour
     [SerializeField] private SuitValue suitValue;
     [SerializeField] private FishValue fishValue;
 
-    private HandManager handManager;
 
-    private void Awake() {
-        handManager = FindObjectOfType<HandManager>();
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.GetComponent<PlayerMovement>()) {
-            
             handManager.SetHand(suitValue.ToString(), (int)fishValue);
+            audioManager.EatFishCrunch();
             Destroy(gameObject);
         }
     }

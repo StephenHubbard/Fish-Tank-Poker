@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class HandManager : MonoBehaviour
 {
 
     [SerializeField] private GameObject[] cardBoxes;
+    [SerializeField] private Sprite[] suitSprites;
+    [SerializeField] private Sprite uiMask;
 
     private HistogramManager histogramManager;
 
@@ -14,24 +17,62 @@ public class HandManager : MonoBehaviour
         histogramManager = FindObjectOfType<HistogramManager>();
     }
 
+    private void Start() {
+        ResetHand();
+    }
+
     public void SetHand(string fishSuit, int fishValue) {
         for (int i = 0; i < cardBoxes.Length; i++)
         {
             if (cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text.Length == 0) {
-                cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text = fishValue + fishSuit;
+                AssignTextValue(fishValue, i);
+                AssignSuitSprite(fishSuit, i);
 
                 histogramManager.UpdateValueHistogram(fishValue);
                 histogramManager.UpdateSuitHistogram(fishSuit);
+                histogramManager.UpdateComboHistogram(fishValue, fishSuit);
 
                 if (cardBoxes[4].GetComponentInChildren<TextMeshProUGUI>().text.Length > 0) {
                     DetectHandStrength();
                     ResetHand();
                 }
 
-
                 return;
             }
         }
+    }
+
+    private void AssignTextValue(int fishValue, int i) {
+        if (fishValue > 1 && fishValue < 11) {
+            cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text = fishValue.ToString();
+        } else if (fishValue == 11) {
+            cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text = "J";
+        } else if (fishValue == 12) {
+            cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text = "Q";
+        } else if (fishValue == 13) {
+            cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text = "K";
+        } else if (fishValue == 1) {
+            cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text = "A";
+        }
+    }
+
+    private void AssignSuitSprite(string fishSuit, int i) {
+        if (fishSuit == "c") {
+            cardBoxes[i].transform.Find("SuitImage").GetComponent<Image>().sprite = suitSprites[0];
+        }
+
+        if (fishSuit == "d") {
+            cardBoxes[i].transform.Find("SuitImage").GetComponent<Image>().sprite = suitSprites[1];
+        }
+
+        if (fishSuit == "s") {
+            cardBoxes[i].transform.Find("SuitImage").GetComponent<Image>().sprite = suitSprites[2];
+        }
+
+        if (fishSuit == "h") {
+            cardBoxes[i].transform.Find("SuitImage").GetComponent<Image>().sprite = suitSprites[3];
+        }
+
     }
 
     private void DetectHandStrength() {
@@ -41,7 +82,7 @@ public class HandManager : MonoBehaviour
         }
 
         if (histogramManager.CheckForBoat()) {
-            print("Boat");
+            print("Full House");
             return;
         }
 
@@ -78,14 +119,14 @@ public class HandManager : MonoBehaviour
         print("nada");
     }
 
-    private void ResetHand() {
+    public void ResetHand() {
         for (int i = 0; i < cardBoxes.Length; i++)
         {
             cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text = "";
+            cardBoxes[i].transform.Find("SuitImage").GetComponent<Image>().sprite = uiMask;
         }
 
-        histogramManager.ClearValueHistogram();
-        histogramManager.ClearSuitHistogram();
+        histogramManager.ClearHistograms();
     }
 
     
