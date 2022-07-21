@@ -221,6 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14646469141b324d84574de3ad6a7af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishCrunchSFX:
+  - {fileID: 8300000, guid: 19de067f619f4d744af0c86418d08ed2, type: 3}
   suitValue: 0
   fishValue: 11
 --- !u!58 &3145574224243976246
@@ -287,7 +289,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 19de067f619f4d744af0c86418d08ed2, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

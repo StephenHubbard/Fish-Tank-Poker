@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour
 {
+    [SerializeField] private AudioClip[] fishCrunchSFX;
 
     private HandManager handManager;
-    private AudioManager audioManager;
 
     private void Awake() {
         handManager = FindObjectOfType<HandManager>();
-        audioManager = FindObjectOfType<AudioManager>();
     }
 
     public enum SuitValue 
@@ -48,7 +47,7 @@ public class Fish : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.GetComponent<PlayerMovement>()) {
             handManager.SetHand(suitValue.ToString(), (int)fishValue);
-            audioManager.EatFishCrunch();
+            AudioSource.PlayClipAtPoint(fishCrunchSFX[Random.Range(0, fishCrunchSFX.Length)], Camera.main.gameObject.transform.position, 1f);
             Destroy(gameObject);
         }
     }

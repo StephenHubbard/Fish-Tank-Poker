@@ -10,15 +10,19 @@ public class HandManager : MonoBehaviour
     [SerializeField] private GameObject[] cardBoxes;
     [SerializeField] private Sprite[] suitSprites;
     [SerializeField] private Sprite uiMask;
+    [SerializeField] private TMP_Text handClassText;
 
     private HistogramManager histogramManager;
+    private PointManager pointManager;
 
     private void Awake() {
+        pointManager = FindObjectOfType<PointManager>();
         histogramManager = FindObjectOfType<HistogramManager>();
     }
 
     private void Start() {
         ResetHand();
+        handClassText.gameObject.SetActive(false);
     }
 
     public void SetHand(string fishSuit, int fishValue) {
@@ -77,46 +81,69 @@ public class HandManager : MonoBehaviour
 
     private void DetectHandStrength() {
         if (histogramManager.CheckForQuads()) {
-            print("Quads");
+            pointManager.AddPoints(100);
+            HandClassAnimation("Quads");
             return;
         }
 
         if (histogramManager.CheckForBoat()) {
-            print("Full House");
+            pointManager.AddPoints(80);
+            HandClassAnimation("Full House");
             return;
         }
 
         if (histogramManager.CheckForTrips()) {
-            print("Trips");
+            pointManager.AddPoints(40);
+            HandClassAnimation("Trips");
             return;
         }
 
         if (histogramManager.CheckForTwoPair()) {
-            print("Two Pair");
+            pointManager.AddPoints(20);
+            HandClassAnimation("Two Pair");
             return;
         }
 
         if (histogramManager.CheckForOnePair()) {
-            print("One Pair");
+            pointManager.AddPoints(10);
+            HandClassAnimation("One Pair");
             return;
         }
 
         if (histogramManager.CheckForStraightFlush()) {
-            print("Straight Flush");
+            pointManager.AddPoints(250);
+            HandClassAnimation("Straight Flush");
             return;
         }
 
         if (histogramManager.CheckForFlush()) {
-            print("Flush");
+            pointManager.AddPoints(60);
+            HandClassAnimation("Flush");
             return;
         }
 
         if (histogramManager.CheckForStraight()) {
-            print("Straight");
+            pointManager.AddPoints(50);
+            HandClassAnimation("Straight");
             return;
         }
 
-        print("nada");
+        HandClassAnimation("Try Again");
+    }
+
+    public void RepeatCardText() {
+        HandClassAnimation("Repeat Card");
+    }
+
+    private void HandClassAnimation(string handClassStr) {
+        handClassText.gameObject.SetActive(true);
+        handClassText.text = handClassStr;
+        StartCoroutine(HandClassCo());
+    }
+
+    private IEnumerator HandClassCo() {
+        yield return new WaitForSeconds(2f);
+        handClassText.gameObject.SetActive(false);
     }
 
     public void ResetHand() {

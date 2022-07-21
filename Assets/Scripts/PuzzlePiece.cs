@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PuzzlePiece : MonoBehaviour
 {
+    [SerializeField] private AudioClip puzzlePiece;
+
     private TimeLeft timeLeft;
     private Rigidbody2D rb;
     private bool rotateLeft = true;
-    private AudioManager audioManager;
 
     private void Awake() {
         timeLeft = FindObjectOfType<TimeLeft>();
         rb = GetComponent<Rigidbody2D>();
-        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void Start()
@@ -40,7 +40,7 @@ public class PuzzlePiece : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.GetComponent<PlayerMovement>()) {
             timeLeft.PuzzlePieceAddTime();
-            audioManager.PickUpPuzzlePiece();
+            AudioSource.PlayClipAtPoint(puzzlePiece, Camera.main.gameObject.transform.position, .7f);
             Destroy(gameObject);
         }
     }

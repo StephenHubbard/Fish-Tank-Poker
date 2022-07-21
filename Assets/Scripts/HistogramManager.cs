@@ -8,6 +8,7 @@ public class HistogramManager : MonoBehaviour
 {
     // Num Value
 
+    [SerializeField] private AudioClip repeatCardSFX;
     [SerializeField] int[] numValue = new int[] {};
     [SerializeField] string[] suitValue = new string[] {};
     [SerializeField] string[] cardCombo = new string[] {};
@@ -49,7 +50,8 @@ public class HistogramManager : MonoBehaviour
             foreach (var group in counts)
             {
                 if (group.Count() > 1) {
-                    print("repeat card");
+                    AudioSource.PlayClipAtPoint(repeatCardSFX, Camera.main.gameObject.transform.position, 1f);
+                    handManager.RepeatCardText();
                     handManager.ResetHand();
                 } 
             }

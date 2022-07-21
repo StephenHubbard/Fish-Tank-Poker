@@ -221,6 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14646469141b324d84574de3ad6a7af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishCrunchSFX:
+  - {fileID: 8300000, guid: 19de067f619f4d744af0c86418d08ed2, type: 3}
   suitValue: 3
   fishValue: 13
 --- !u!58 &-9029415062843344859

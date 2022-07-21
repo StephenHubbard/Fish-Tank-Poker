@@ -103,6 +103,8 @@ MonoBehaviour:
   moveSpeed: 2
   rb: {fileID: 3688999252360893286}
   spriteRenderer: {fileID: 3688999252360893284}
+  slipperyFloat: 0.5
+  dashSFX: {fileID: 8300000, guid: b53906671c4690a4ebd266c2ccca5bc1, type: 3}
 --- !u!50 &3688999252360893286
 Rigidbody2D:
   serializedVersion: 4

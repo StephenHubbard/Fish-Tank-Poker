@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float slipperyFloat = .5f;
+    [SerializeField] private AudioClip dashSFX;
 
     private float smoothedValue = 0.0f;
     private float velocity = 0.0F;
@@ -19,8 +20,10 @@ public class PlayerMovement : MonoBehaviour
     private float lastMoveX;
     private bool isDashing = false;
     private Coroutine currentDashCo = null;
+    private VariableJoystick variableJoystick;
 
     private void Awake() {
+        variableJoystick = FindObjectOfType<VariableJoystick>();
         trailRenderer = GetComponent<TrailRenderer>();
     }
 
@@ -35,15 +38,29 @@ public class PlayerMovement : MonoBehaviour
     {
         PlayerInput();
 
-        if (Input.GetMouseButtonDown(0) && !isDashing) {
+        if ((Input.GetKeyDown(KeyCode.Space) || DetectSecondTouch()) && !isDashing) {
             StartCoroutine(DashCo(moveSpeed * 5, .3f));
 
             if (currentDashCo != null) {
                 StopCoroutine(currentDashCo);
             }
-            
+
             currentDashCo = StartCoroutine(TrailRendererToggleCo());
         }
+    }
+
+    private bool DetectSecondTouch() {
+        if (Input.touchCount == 2)
+            {
+                Touch touch = Input.GetTouch(1);
+
+                if (touch.phase == TouchPhase.Began)
+                {
+                    return true;
+                }
+            }
+
+        return false;
     }
 
     private void FixedUpdate() {
@@ -52,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator DashCo(float v_start, float duration) {
         isDashing = true;
+
+        AudioSource.PlayClipAtPoint(dashSFX, Camera.main.gameObject.transform.position, .1f);
 
         float elapsed = 0.0f;
         while (elapsed < duration )
@@ -72,8 +91,26 @@ public class PlayerMovement : MonoBehaviour
     }
     
     private void PlayerInput() {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
+        float moveX;
+        float moveY;
+
+        if (variableJoystick.Direction.x != 0) {
+            moveX = variableJoystick.Direction.x;
+
+            if (variableJoystick.Direction.x < 0) {
+                lastMoveX = -1;
+            } else {
+                lastMoveX = 1;
+            }
+        } else {
+            moveX = Input.GetAxisRaw("Horizontal");
+        }
+
+        if (variableJoystick.Direction.y != 0) {
+            moveY = variableJoystick.Direction.y;
+        } else {
+            moveY = Input.GetAxisRaw("Vertical");
+        }
 
         movement = new Vector2(moveX, moveY).normalized;
 
