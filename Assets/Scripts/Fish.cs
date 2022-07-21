@@ -1,15 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Fish : MonoBehaviour
 {
     [SerializeField] private AudioClip[] fishCrunchSFX;
+    [SerializeField] private SuitValue suitValue;
+    [SerializeField] private FishValue fishValue;
+    [SerializeField] private TMP_Text valueText;
 
     private HandManager handManager;
 
     private void Awake() {
         handManager = FindObjectOfType<HandManager>();
+    }
+
+    private void Start() {
+        fishValue = (FishValue)Random.Range(1, 13);
+
+        if ((int)fishValue >= 2 && (int)fishValue <= 9) {
+            int fishInt = (int)fishValue;
+            valueText.text = fishInt.ToString();
+        } else {
+            valueText.text = fishValue.ToString();
+        }
     }
 
     public enum SuitValue 
@@ -36,12 +51,6 @@ public class Fish : MonoBehaviour
         Q = 12, 
         K = 13,
     };
-
-
-    [SerializeField] private SuitValue suitValue;
-    [SerializeField] private FishValue fishValue;
-
-
     
 
     private void OnTriggerEnter2D(Collider2D other) {
