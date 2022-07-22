@@ -2028,6 +2028,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonClick: {fileID: 8300000, guid: a32ef13757b1cda408dd28d6c9207363, type: 3}
+  mainMenuContainer: {fileID: 0}
+  howToPlayContainer: {fileID: 0}
 --- !u!1 &813362660
 GameObject:
   m_ObjectHideFlags: 0

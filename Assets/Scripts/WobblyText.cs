@@ -8,6 +8,10 @@ public class WobblyText : MonoBehaviour
 {
 	[SerializeField] private TMP_Text textComponent;
 
+  private void Start() {
+    Time.timeScale = 1;
+  }
+
   private void Update() {
     textComponent.ForceMeshUpdate();
     var textInfo = textComponent.textInfo;
