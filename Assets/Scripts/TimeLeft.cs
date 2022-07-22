@@ -9,18 +9,23 @@ public class TimeLeft : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private float timeStillLeft;
     [SerializeField] private float timeToAdd = 10f;
+    [SerializeField] private GameObject gameOverUIContainer;
 
     private void Start() {
         timeStillLeft = startingTime;
 
         slider.maxValue = startingTime;
         slider.value = startingTime;
+
+        Time.timeScale = 1;
     }
 
     private void Update() {
         timeStillLeft -= Time.deltaTime;
 
         UpdateSlider();
+
+        DetectGameLoss();
     }
 
     private void UpdateSlider() {
@@ -32,6 +37,13 @@ public class TimeLeft : MonoBehaviour
 
         if (timeStillLeft >= startingTime) {
             timeStillLeft = startingTime;
+        }
+    }
+
+    private void DetectGameLoss() {
+        if (timeStillLeft <= 0) {
+            gameOverUIContainer.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 }

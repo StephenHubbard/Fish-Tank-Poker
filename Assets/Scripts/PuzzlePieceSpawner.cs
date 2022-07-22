@@ -18,6 +18,7 @@ public class PuzzlePieceSpawner : MonoBehaviour
             Collider2D thisCollider = GetComponent<BoxCollider2D>();
             GameObject newPuzzlePiece = Instantiate(puzzlePiecePrefab, RandomPointInBounds(thisCollider.bounds), transform.rotation);
 
+            spawnPuzzleTimer += 1f;
             yield return new WaitForSeconds(spawnPuzzleTimer);
         }
     }

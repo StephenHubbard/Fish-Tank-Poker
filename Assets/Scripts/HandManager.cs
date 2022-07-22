@@ -84,7 +84,7 @@ public class HandManager : MonoBehaviour
         if (histogramManager.CheckForQuads()) {
             pointManager.AddPoints(100);
             HandClassAnimation("Quads");
-            AudioSource.PlayClipAtPoint(HandClassSFX[6], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[6], Camera.main.gameObject.transform.position, .3f);
 
             return;
         }
@@ -92,58 +92,59 @@ public class HandManager : MonoBehaviour
         if (histogramManager.CheckForBoat()) {
             pointManager.AddPoints(80);
             HandClassAnimation("Full House");
-            AudioSource.PlayClipAtPoint(HandClassSFX[5], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[5], Camera.main.gameObject.transform.position, .3f);
             return;
         }
 
         if (histogramManager.CheckForTrips()) {
             pointManager.AddPoints(40);
             HandClassAnimation("Trips");
-            AudioSource.PlayClipAtPoint(HandClassSFX[2], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[2], Camera.main.gameObject.transform.position, .3f);
             return;
         }
 
         if (histogramManager.CheckForTwoPair()) {
             pointManager.AddPoints(20);
             HandClassAnimation("Two Pair");
-            AudioSource.PlayClipAtPoint(HandClassSFX[1], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[1], Camera.main.gameObject.transform.position, .3f);
             return;
         }
 
         if (histogramManager.CheckForOnePair()) {
             pointManager.AddPoints(10);
             HandClassAnimation("One Pair");
-            AudioSource.PlayClipAtPoint(HandClassSFX[0], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[0], Camera.main.gameObject.transform.position, .3f);
             return;
         }
 
         if (histogramManager.CheckForStraightFlush()) {
             pointManager.AddPoints(250);
             HandClassAnimation("Straight Flush");
-            AudioSource.PlayClipAtPoint(HandClassSFX[7], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[7], Camera.main.gameObject.transform.position, .3f);
             return;
         }
 
         if (histogramManager.CheckForFlush()) {
             pointManager.AddPoints(60);
             HandClassAnimation("Flush");
-            AudioSource.PlayClipAtPoint(HandClassSFX[4], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[4], Camera.main.gameObject.transform.position, .3f);
             return;
         }
 
         if (histogramManager.CheckForStraight()) {
             pointManager.AddPoints(50);
             HandClassAnimation("Straight");
-            AudioSource.PlayClipAtPoint(HandClassSFX[3], Camera.main.gameObject.transform.position, .4f);
+            AudioSource.PlayClipAtPoint(HandClassSFX[3], Camera.main.gameObject.transform.position, .3f);
             return;
         }
 
         HandClassAnimation("Try Again");
-        AudioSource.PlayClipAtPoint(HandClassSFX[8], Camera.main.gameObject.transform.position, 1f);
+        AudioSource.PlayClipAtPoint(HandClassSFX[8], Camera.main.gameObject.transform.position, .4f);
 
     }
 
     public void RepeatCardText() {
+        AudioSource.PlayClipAtPoint(HandClassSFX[8], Camera.main.gameObject.transform.position, .4f);
         HandClassAnimation("Repeat Card");
     }
 

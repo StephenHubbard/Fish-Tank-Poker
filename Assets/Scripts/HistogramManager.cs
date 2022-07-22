@@ -19,6 +19,7 @@ public class HistogramManager : MonoBehaviour
         handManager = FindObjectOfType<HandManager>();
     }
 
+
     public void UpdateValueHistogram(int fishIntValue)
     {
         numValue = numValue.Concat(new int[] { fishIntValue }).ToArray();
@@ -50,7 +51,6 @@ public class HistogramManager : MonoBehaviour
             foreach (var group in counts)
             {
                 if (group.Count() > 1) {
-                    AudioSource.PlayClipAtPoint(repeatCardSFX, Camera.main.gameObject.transform.position, 1f);
                     handManager.RepeatCardText();
                     handManager.ResetHand();
                 } 

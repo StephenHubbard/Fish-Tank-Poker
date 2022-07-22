@@ -9,23 +9,10 @@ public class Fish : MonoBehaviour
     [SerializeField] private SuitValue suitValue;
     [SerializeField] private FishValue fishValue;
     [SerializeField] private TMP_Text valueText;
+    [SerializeField] private GameObject fishLight;
 
     private HandManager handManager;
-
-    private void Awake() {
-        handManager = FindObjectOfType<HandManager>();
-    }
-
-    private void Start() {
-        fishValue = (FishValue)Random.Range(1, 13);
-
-        if ((int)fishValue >= 2 && (int)fishValue <= 9) {
-            int fishInt = (int)fishValue;
-            valueText.text = fishInt.ToString();
-        } else {
-            valueText.text = fishValue.ToString();
-        }
-    }
+    private HistogramManager histogramManager;
 
     public enum SuitValue 
     {
@@ -51,6 +38,43 @@ public class Fish : MonoBehaviour
         Q = 12, 
         K = 13,
     };
+
+    public SuitValue suitVal;
+    public FishValue fishVal;
+
+    private void Awake() {
+        handManager = FindObjectOfType<HandManager>();
+        histogramManager = FindObjectOfType<HistogramManager>();
+    }
+
+    private void Start() {
+        fishValue = (FishValue)Random.Range(1, 13);
+
+        if ((int)fishValue >= 2 && (int)fishValue <= 9) {
+            int fishInt = (int)fishValue;
+            valueText.text = fishInt.ToString();
+        } else {
+            valueText.text = fishValue.ToString();
+        }
+    }
+
+    // public void CheckForRepeatSwimmingFish(int fishIntValue, string fishSuitValue) {
+    //     Fish[] allFish = FindObjectsOfType<Fish>();
+
+    //     foreach (var item in allFish)
+    //     {
+    //         // print(item.GetComponent<Fish>().suitVal.ToString());
+    //         // print(fishSuitValue);
+    //         // print((int)item.GetComponent<Fish>().fishVal);
+    //         // print(fishIntValue);
+
+    //         if ((item.GetComponent<Fish>().suitVal.ToString() == fishSuitValue) && (int)item.GetComponent<Fish>().fishVal == fishIntValue) {
+    //             item.GetComponent<Fish>().ToggleFlashingFish();
+    //         } else {
+    //             continue;
+    //         }
+    //     }
+    // }
     
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -59,5 +83,9 @@ public class Fish : MonoBehaviour
             AudioSource.PlayClipAtPoint(fishCrunchSFX[Random.Range(0, fishCrunchSFX.Length)], Camera.main.gameObject.transform.position, 1f);
             Destroy(gameObject);
         }
+    }
+
+    public void ToggleFlashingFish() {
+        fishLight.GetComponent<Animator>().SetBool("FishInUse", true);
     }
 }

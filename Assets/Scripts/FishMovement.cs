@@ -22,6 +22,8 @@ public class FishMovement : MonoBehaviour
     private void Start()
     {
         StartCoroutine(ChangeDirection());
+
+        moveSpeed += Random.Range(-0.5f, .5f);
     }   
 
     private void FixedUpdate()

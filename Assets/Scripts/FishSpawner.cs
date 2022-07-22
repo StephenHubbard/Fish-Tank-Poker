@@ -20,6 +20,7 @@ public class FishSpawner : MonoBehaviour
             int randomFishNum = Random.Range(0, fishPrefabs.Length);
             Collider2D thisCollider = GetComponent<BoxCollider2D>();
             GameObject newFish = Instantiate(fishPrefabs[randomFishNum], RandomPointInBounds(thisCollider.bounds), transform.rotation);
+            spawnFishTime -= 0.01f;
 
             if (!isLeftSide) {
                 newFish.GetComponent<FishMovement>().moveSpeed *= -1;
