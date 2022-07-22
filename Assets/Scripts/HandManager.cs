@@ -28,22 +28,36 @@ public class HandManager : MonoBehaviour
 
     public void SetHand(string fishSuit, int fishValue) {
         for (int i = 0; i < cardBoxes.Length; i++)
-        {
-            if (cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text.Length == 0) {
-                AssignTextValue(fishValue, i);
-                AssignSuitSprite(fishSuit, i);
+            {
+                if (cardBoxes[i].GetComponentInChildren<TextMeshProUGUI>().text.Length == 0)
+                {
+                    AssignTextValue(fishValue, i);
+                    AssignSuitSprite(fishSuit, i);
 
-                histogramManager.UpdateValueHistogram(fishValue);
-                histogramManager.UpdateSuitHistogram(fishSuit);
-                histogramManager.UpdateComboHistogram(fishValue, fishSuit);
+                    histogramManager.UpdateValueHistogram(fishValue);
+                    histogramManager.UpdateSuitHistogram(fishSuit);
+                    histogramManager.UpdateComboHistogram(fishValue, fishSuit);
 
-                if (cardBoxes[4].GetComponentInChildren<TextMeshProUGUI>().text.Length > 0) {
+                    CheckForSwimmingFishInHand();
+
+                    if (cardBoxes[4].GetComponentInChildren<TextMeshProUGUI>().text.Length > 0)
+                    {
                     DetectHandStrength();
                     ResetHand();
-                }
+                    }
 
-                return;
+                    return;
+                }
             }
+        }
+
+    private static void CheckForSwimmingFishInHand()
+    {
+        Fish[] allFish = FindObjectsOfType<Fish>();
+
+        foreach (var item in allFish)
+        {
+            item.GetComponent<Fish>().CheckForRepeatSwimmingFish();
         }
     }
 
@@ -168,6 +182,13 @@ public class HandManager : MonoBehaviour
         }
 
         histogramManager.ClearHistograms();
+
+        Fish[] allFish = FindObjectsOfType<Fish>();
+
+        foreach (var item in allFish)
+        {
+            item.GetComponent<Fish>().StopFlashing();
+        }
     }
 
     

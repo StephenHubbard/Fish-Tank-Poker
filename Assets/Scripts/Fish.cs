@@ -10,9 +10,7 @@ public class Fish : MonoBehaviour
     [SerializeField] private FishValue fishValue;
     [SerializeField] private TMP_Text valueText;
     [SerializeField] private GameObject fishLight;
-
-    private HandManager handManager;
-    private HistogramManager histogramManager;
+    [SerializeField] private Animator fishAnimator;
 
     public enum SuitValue 
     {
@@ -39,8 +37,10 @@ public class Fish : MonoBehaviour
         K = 13,
     };
 
-    public SuitValue suitVal;
-    public FishValue fishVal;
+
+    private HandManager handManager;
+    private HistogramManager histogramManager;
+
 
     private void Awake() {
         handManager = FindObjectOfType<HandManager>();
@@ -56,25 +56,31 @@ public class Fish : MonoBehaviour
         } else {
             valueText.text = fishValue.ToString();
         }
+
+        CheckForRepeatSwimmingFish();
     }
 
-    // public void CheckForRepeatSwimmingFish(int fishIntValue, string fishSuitValue) {
-    //     Fish[] allFish = FindObjectsOfType<Fish>();
+    public void CheckForRepeatSwimmingFish() {
+            string[] cardComboString = histogramManager.GetCardComboString();
 
-    //     foreach (var item in allFish)
-    //     {
-    //         // print(item.GetComponent<Fish>().suitVal.ToString());
-    //         // print(fishSuitValue);
-    //         // print((int)item.GetComponent<Fish>().fishVal);
-    //         // print(fishIntValue);
+            int thisFishInt = (int)fishValue;
+            string thisFish = thisFishInt.ToString() + suitValue;
 
-    //         if ((item.GetComponent<Fish>().suitVal.ToString() == fishSuitValue) && (int)item.GetComponent<Fish>().fishVal == fishIntValue) {
-    //             item.GetComponent<Fish>().ToggleFlashingFish();
-    //         } else {
-    //             continue;
-    //         }
-    //     }
-    // }
+            foreach (var item in cardComboString)
+            {
+                if (item == thisFish) { 
+                    StartFlashing();
+                }
+            }
+    }
+
+    public void StartFlashing() {
+        fishAnimator.SetBool("FishInUse", true);
+    }
+
+    public void StopFlashing() {
+        fishAnimator.SetBool("FishInUse", false);
+    }
     
 
     private void OnTriggerEnter2D(Collider2D other) {

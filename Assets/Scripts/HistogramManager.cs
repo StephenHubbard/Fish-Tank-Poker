@@ -19,6 +19,18 @@ public class HistogramManager : MonoBehaviour
         handManager = FindObjectOfType<HandManager>();
     }
 
+    public string[] GetSuitValueHistogram() {
+        return suitValue;
+    }
+
+    public string[] GetNumValueHistogram() {
+        return suitValue;
+    }
+
+    public string[] GetCardComboString() {
+        return cardCombo;
+    }
+
 
     public void UpdateValueHistogram(int fishIntValue)
     {

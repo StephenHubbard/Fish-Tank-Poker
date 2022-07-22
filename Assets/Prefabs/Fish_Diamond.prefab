@@ -261,6 +261,7 @@ MonoBehaviour:
   fishValue: 2
   valueText: {fileID: 5788060358048329792}
   fishLight: {fileID: 2774188614670879070}
+  fishAnimator: {fileID: 2774188614670879136}
 --- !u!58 &-4131872271290830066
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -568,6 +569,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8532560661726168781, guid: 52539cc0e610de344b96d8225cfeeeb8, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 52539cc0e610de344b96d8225cfeeeb8, type: 3}
@@ -579,5 +584,10 @@ GameObject:
 --- !u!4 &2774188614670879071 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8532560661726168627, guid: 52539cc0e610de344b96d8225cfeeeb8, type: 3}
+  m_PrefabInstance: {fileID: 5770900501194149740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2774188614670879136 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8532560661726168780, guid: 52539cc0e610de344b96d8225cfeeeb8, type: 3}
   m_PrefabInstance: {fileID: 5770900501194149740}
   m_PrefabAsset: {fileID: 0}
